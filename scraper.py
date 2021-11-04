@@ -128,14 +128,14 @@ def write_to_file(country_code, country_data):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    with open(f"{output_dir}/{time.strftime('%y.%d.%m')}_{country_code}_videos.csv", "w+", encoding='utf-8') as file:
+    with open(f"{output_dir}/{country_code}_videos.csv", "a", encoding='utf-8') as file:
         for row in country_data:
             file.write(f"{row}\n")
 
 
 def get_data():
     for country_code in country_codes:
-        country_data = [",".join(header)] + get_pages(country_code)
+        country_data = get_pages(country_code) if os.path.isfile(f"{output_dir}/{country_code}_videos.csv") else [",".join(header)] + get_pages(country_code)
         write_to_file(country_code, country_data)
 
 
